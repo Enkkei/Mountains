@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mountains</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a1a;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .scene {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+  }
+
+  /* SKY GRADIENT */
+  .sky {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      #0a0a1a 0%,
+      #0d1b3e 30%,
+      #1a2a5e 55%,
+      #2e3f7a 70%,
+      #4a5a8a 85%,
+      #6b7faa 100%
+    );
+  }
+
+  /* STARS */
+  .stars {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 5%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 22% 12%, #fff 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 35% 3%, #ffffffcc 0%, transparent 100%),
+      radial-gradient(1px 1px at 48% 8%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 2%, #fff 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 72% 10%, #ffffffcc 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 6%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 93% 14%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 15% 20%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 40% 18%, #ffffffaa 0%, transparent 100%),
+      radial-gradient(1px 1px at 58% 22%, #fff 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 78% 17%, #ffffffcc 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 25%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 5%  28%, #ffffffaa 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 30%, #fff 0%, transparent 100%),
+      radial-gradient(1px 1px at 65% 27%, #fff 0%, transparent 100%);
+  }
+
+  /* MOON */
+  .moon {
+    position: absolute;
+    top: 6%;
+    right: 12%;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 35%, #fffde7, #f5e99a 40%, #d4c070 100%);
+    box-shadow:
+      0 0 30px 10px rgba(245, 233, 154, 0.25),
+      0 0 80px 30px rgba(245, 233, 154, 0.10);
+  }
+
+  .moon::after {
+    content: '';
+    position: absolute;
+    top: 8px; left: 12px;
+    width: 18px; height: 14px;
+    border-radius: 50%;
+    background: rgba(180, 160, 40, 0.25);
+  }
+
+  /* MIST / ATMOSPHERE */
+  .mist {
+    position: absolute;
+    bottom: 30%;
+    left: 0; right: 0;
+    height: 120px;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(100, 130, 180, 0.12) 50%,
+      rgba(100, 130, 180, 0.22) 100%
+    );
+    filter: blur(8px);
+  }
+
+  /* ── MOUNTAINS ── */
+  .mountains {
+    position: absolute;
+    bottom: 0;
+    left: 0; right: 0;
+    height: 100%;
+  }
+
+  /* far-range — very dark, desaturated */
+  .m-far-1 {
+    position: absolute;
+    bottom: 28%;
+    left: -4%;
+    width: 0; height: 0;
+    border-left: 200px solid transparent;
+    border-right: 260px solid transparent;
+    border-bottom: 340px solid #1a2040;
+    filter: blur(1.5px);
+  }
+  .m-far-2 {
+    position: absolute;
+    bottom: 28%;
+    left: 15%;
+    width: 0; height: 0;
+    border-left: 240px solid transparent;
+    border-right: 200px solid transparent;
+    border-bottom: 310px solid #1e2547;
+    filter: blur(1.5px);
+  }
+  .m-far-3 {
+    position: absolute;
+    bottom: 28%;
+    right: -2%;
+    width: 0; height: 0;
+    border-left: 280px solid transparent;
+    border-right: 180px solid transparent;
+    border-bottom: 360px solid #1a2040;
+    filter: blur(1.5px);
+  }
+  .m-far-4 {
+    position: absolute;
+    bottom: 28%;
+    right: 18%;
+    width: 0; height: 0;
+    border-left: 200px solid transparent;
+    border-right: 230px solid transparent;
+    border-bottom: 290px solid #1c2244;
+    filter: blur(1px);
+  }
+
+  /* mid-range */
+  .m-mid-1 {
+    position: absolute;
+    bottom: 22%;
+    left: -2%;
+    width: 0; height: 0;
+    border-left: 180px solid transparent;
+    border-right: 300px solid transparent;
+    border-bottom: 380px solid #1f2d50;
+  }
+  .m-mid-2 {
+    position: absolute;
+    bottom: 22%;
+    left: 18%;
+    width: 0; height: 0;
+    border-left: 260px solid transparent;
+    border-right: 220px solid transparent;
+    border-bottom: 420px solid #243358;
+  }
+  .m-mid-3 {
+    position: absolute;
+    bottom: 22%;
+    left: 40%;
+    width: 0; height: 0;
+    border-left: 230px solid transparent;
+    border-right: 270px solid transparent;
+    border-bottom: 390px solid #1e2b4e;
+  }
+  .m-mid-4 {
+    position: absolute;
+    bottom: 22%;
+    right: -2%;
+    width: 0; height: 0;
+    border-left: 300px solid transparent;
+    border-right: 160px solid transparent;
+    border-bottom: 350px solid #22305a;
+  }
+
+  /* SNOW CAPS */
+  .snow-1 {
+    position: absolute;
+    bottom: calc(22% + 340px);
+    left: calc(-2% + 200px);
+    transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 45px solid transparent;
+    border-right: 45px solid transparent;
+    border-bottom: 90px solid rgba(220, 235, 255, 0.85);
+    filter: blur(0.5px);
+  }
+  .snow-2 {
+    position: absolute;
+    bottom: calc(22% + 370px);
+    left: calc(18% + 260px);
+    transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 55px solid transparent;
+    border-right: 55px solid transparent;
+    border-bottom: 100px solid rgba(220, 235, 255, 0.80);
+    filter: blur(0.5px);
+  }
+  .snow-3 {
+    position: absolute;
+    bottom: calc(22% + 345px);
+    left: calc(40% + 250px);
+    transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 48px solid transparent;
+    border-right: 48px solid transparent;
+    border-bottom: 88px solid rgba(215, 230, 255, 0.75);
+    filter: blur(0.5px);
+  }
+
+  /* foreground — darkest, sharpest */
+  .m-fg-1 {
+    position: absolute;
+    bottom: 16%;
+    left: -5%;
+    width: 0; height: 0;
+    border-left: 120px solid transparent;
+    border-right: 260px solid transparent;
+    border-bottom: 300px solid #131a30;
+  }
+  .m-fg-2 {
+    position: absolute;
+    bottom: 16%;
+    left: 22%;
+    width: 0; height: 0;
+    border-left: 200px solid transparent;
+    border-right: 160px solid transparent;
+    border-bottom: 340px solid #0f1628;
+  }
+  .m-fg-3 {
+    position: absolute;
+    bottom: 16%;
+    left: 48%;
+    width: 0; height: 0;
+    border-left: 170px solid transparent;
+    border-right: 200px solid transparent;
+    border-bottom: 320px solid #141b32;
+  }
+  .m-fg-4 {
+    position: absolute;
+    bottom: 16%;
+    right: -3%;
+    width: 0; height: 0;
+    border-left: 220px solid transparent;
+    border-right: 100px solid transparent;
+    border-bottom: 290px solid #10172a;
+  }
+
+  /* ── ROCKY GROUND ── */
+  .ground {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 18%;
+    background: linear-gradient(
+      to bottom,
+      #0d1220 0%,
+      #0a0f1c 60%,
+      #080c18 100%
+    );
+  }
+
+  /* Rocks — CSS polygon via clip-path */
+  .rock {
+    position: absolute;
+    bottom: 0;
+    background: linear-gradient(160deg, #1e2740 0%, #111828 60%, #090d18 100%);
+  }
+
+  .rock-1 {
+    left: 2%;  width: 80px; height: 55px;
+    clip-path: polygon(0% 100%, 20% 30%, 45% 10%, 70% 35%, 90% 20%, 100% 100%);
+  }
+  .rock-2 {
+    left: 8%;  width: 110px; height: 75px;
+    clip-path: polygon(0% 100%, 10% 40%, 30% 8%, 55% 25%, 75% 5%, 95% 40%, 100% 100%);
+    background: linear-gradient(150deg, #232e48 0%, #131c30 100%);
+  }
+  .rock-3 {
+    left: 16%; width: 70px; height: 45px;
+    clip-path: polygon(0% 100%, 25% 20%, 55% 5%, 80% 30%, 100% 100%);
+  }
+  .rock-4 {
+    left: 30%; width: 95px; height: 65px;
+    clip-path: polygon(0% 100%, 15% 35%, 40% 5%, 65% 20%, 85% 10%, 100% 100%);
+    background: linear-gradient(140deg, #1c2640 0%, #0e1625 100%);
+  }
+  .rock-5 {
+    left: 44%; width: 60px; height: 40px;
+    clip-path: polygon(0% 100%, 30% 15%, 60% 30%, 80% 8%, 100% 100%);
+  }
+  .rock-6 {
+    left: 55%; width: 100px; height: 70px;
+    clip-path: polygon(0% 100%, 12% 30%, 38% 0%, 62% 18%, 88% 5%, 100% 100%);
+    background: linear-gradient(155deg, #202a42 0%, #121a2e 100%);
+  }
+  .rock-7 {
+    right: 18%; width: 85px; height: 58px;
+    clip-path: polygon(0% 100%, 18% 25%, 42% 8%, 68% 28%, 90% 12%, 100% 100%);
+  }
+  .rock-8 {
+    right: 6%;  width: 120px; height: 80px;
+    clip-path: polygon(0% 100%, 8% 45%, 28% 10%, 50% 30%, 72% 2%, 95% 35%, 100% 100%);
+    background: linear-gradient(145deg, #232e4a 0%, #0f1726 100%);
+  }
+  .rock-9 {
+    right: 28%; width: 55px; height: 38px;
+    clip-path: polygon(0% 100%, 22% 20%, 50% 5%, 78% 22%, 100% 100%);
+  }
+
+  /* small pebbles */
+  .pebble {
+    position: absolute;
+    bottom: 0;
+    border-radius: 40% 60% 55% 45%;
+    background: #141c2e;
+  }
+  .p1 { left: 5%;  width: 20px; height: 12px; }
+  .p2 { left: 25%; width: 14px; height: 9px;  background: #111828; }
+  .p3 { left: 50%; width: 18px; height: 11px; }
+  .p4 { right: 10%;width: 22px; height: 13px; background: #0f1726; }
+  .p5 { right: 35%;width: 12px; height: 8px;  }
+
+  /* RIVER / WATER REFLECTION */
+  .water {
+    position: absolute;
+    bottom: 0;
+    left: 30%; right: 35%;
+    height: 14%;
+    background: linear-gradient(
+      to bottom,
+      rgba(40, 70, 130, 0.55) 0%,
+      rgba(20, 40, 90, 0.80) 100%
+    );
+    clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+  }
+
+  .water::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 14px,
+      rgba(100, 150, 220, 0.12) 14px,
+      rgba(100, 150, 220, 0.12) 16px
+    );
+  }
+
+  /* MOON REFLECTION ON WATER */
+  .moon-reflection {
+    position: absolute;
+    bottom: 2%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 40px;
+    background: linear-gradient(
+      to bottom,
+      rgba(245, 233, 154, 0.6) 0%,
+      transparent 100%
+    );
+    filter: blur(3px);
+    border-radius: 50%;
+  }
+</style>
+</head>
+<body>
+<div class="scene">
+  <div class="sky"></div>
+  <div class="stars"></div>
+  <div class="moon"></div>
+  <div class="mist"></div>
+
+  <div class="mountains">
+    <!-- far range -->
+    <div class="m-far-1"></div>
+    <div class="m-far-2"></div>
+    <div class="m-far-3"></div>
+    <div class="m-far-4"></div>
+    <!-- mid range -->
+    <div class="m-mid-1"></div>
+    <div class="m-mid-2"></div>
+    <div class="m-mid-3"></div>
+    <div class="m-mid-4"></div>
+    <!-- snow -->
+    <div class="snow-1"></div>
+    <div class="snow-2"></div>
+    <div class="snow-3"></div>
+    <!-- foreground -->
+    <div class="m-fg-1"></div>
+    <div class="m-fg-2"></div>
+    <div class="m-fg-3"></div>
+    <div class="m-fg-4"></div>
+  </div>
+
+  <div class="ground">
+    <div class="water">
+      <div class="moon-reflection"></div>
+    </div>
+    <div class="rock rock-1"></div>
+    <div class="rock rock-2"></div>
+    <div class="rock rock-3"></div>
+    <div class="rock rock-4"></div>
+    <div class="rock rock-5"></div>
+    <div class="rock rock-6"></div>
+    <div class="rock rock-7"></div>
+    <div class="rock rock-8"></div>
+    <div class="rock rock-9"></div>
+    <div class="pebble p1"></div>
+    <div class="pebble p2"></div>
+    <div class="pebble p3"></div>
+    <div class="pebble p4"></div>
+    <div class="pebble p5"></div>
+  </div>
+</div>
+</body>
+</html>
